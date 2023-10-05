@@ -27,6 +27,8 @@ phases:
       - echo Build started on `date`
       - echo "Building the Docker image..."
       - docker build -t backend-img:latest .
+      - echo "listing docker images"
+      - docker images
       - docker tag backend-img:latest $REPOSITORY_URI:$IMAGE_TAG
 
   post_build:
