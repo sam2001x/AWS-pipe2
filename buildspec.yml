@@ -20,7 +20,7 @@ phases:
       - echo "the post build phase. creating docker image"
       - echo "Building and Pushing Docker Image"
       - echo "Logging into Amazon ECR"
-      - $(aws ecr get-login --no-include-email --region ap-south-1)
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin public.ecr.aws/e1l0d8t8/saket-repo/
       - docker build -t backend-img  .
       - docker tag backend-img:latest public.ecr.aws/e1l0d8t8/saket-repo/backend-img:latest
       - docker push public.ecr.aws/e1l0d8t8/saket-repo/backend-img:latest
