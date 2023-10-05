@@ -18,8 +18,26 @@ phases:
   post_build:
     commands:
       - echo "the post build phase. navigating back to root path"
-      # - cp  -r build/ ./build
+      - cp  build/ ./build
 
 artifacts:
   files:
     - build/**/*
+
+
+# New Dockerization Step
+post_build:
+  commands:
+    - echo "Building and Pushing Docker Image"
+    - echo "Logging into Amazon ECR"
+    - $(aws ecr get-login --no-include-email --region your-region)
+    - docker build -t backend-img  .
+    - docker tag backend-img:latest public.ecr.aws/e1l0d8t8/saket-repo/backend-img:latest
+    - docker push public.ecr.aws/e1l0d8t8/saket-repo/backend-img:latest
+
+
+# New S3 Upload Step
+artifacts:
+  files:
+    - build/**/*
+  discard-paths: yes
