@@ -3,41 +3,41 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "the installation phase begins"
+      - echo "The installation phase begins"
+
   pre_build:
     commands:
-      - echo "the prebuild phase begins"
+      - echo "The prebuild phase begins. Installing node_modules for frontend."
       - npm install
+      - echo "Logging in to Amazon ECR..."
+      - aws --version
+      - echo $AWS_DEFAULT_REGION
+      - env | grep AWS
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 405052395309.dkr.ecr.ap-south-1.amazonaws.com
+      - REPOSITORY_URI=405052395309.dkr.ecr.ap-south-1.amazonaws.com/sachin-rep
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:-latest}
+
   build:
     commands:
-      - echo "the build phase begins"
-      - echo `pwd`
+      - echo "The build phase begins. Building for Frontend"
+      # - echo `pwd`
       - npm run build
-      - echo `ls`
+      # - echo `ls`
+      - echo Build started on `date`
+      - echo "Building the Docker image..."
+      - docker build -t backend-img:latest .
+      - docker tag backend-img:latest $REPOSITORY_URI:$IMAGE_TAG
 
   post_build:
     commands:
-      - echo "the post build phase. creating docker image"
-      - echo "Building and Pushing Docker Image"
-      - echo "Logging into Amazon ECR"
-      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin public.ecr.aws/e1l0d8t8/saket-repo/
-      - docker build -t backend-img  .
-      - docker tag backend-img:latest public.ecr.aws/e1l0d8t8/saket-repo/backend-img:latest
-      - docker push public.ecr.aws/e1l0d8t8/saket-repo/backend-img:latest
+      - echo Build completed on `date`
+      - echo "Pushing the Docker image to Amazon ECR..."
+      - docker push backend-img:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - printf '[{"name":"saket","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 
 artifacts:
   files:
     - build/**/*
-
-
-# New Dockerization Step
-post_build:
-  commands:
-    
-
-
-# New S3 Upload Step
-artifacts:
-  files:
-    - build/**/*
-  discard-paths: yes
+    - imagedefinitions.json
