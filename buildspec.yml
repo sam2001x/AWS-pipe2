@@ -41,5 +41,5 @@ phases:
 
 artifacts:
   files:
-    - build/**/*
-    - imagedefinitions.json
+    # - build/**/*
+    # - imagedefinitions.json
