@@ -2,14 +2,14 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/
+    destination: /tmp/
 hooks:
   BeforeInstall:
-    - location: /home/ubuntu/stop_previous_container.sh
+    - location: /tmp/stop_previous_container.sh
       timeout: 300
       runas: root
   AfterInstall:
-    - location: /home/ubuntu/start_container.sh
+    - location: /tmp/start_container.sh
       timeout: 300
       runas: root
 
