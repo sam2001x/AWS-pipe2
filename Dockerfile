@@ -1,4 +1,4 @@
-FROM node:12
+FROM public.ecr.aws/docker/library/node:latest
 
 WORKDIR /r-app/backend
 
