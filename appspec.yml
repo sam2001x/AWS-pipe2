@@ -2,14 +2,14 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user
+    destination: /home/ubuntu/
 hooks:
   BeforeInstall:
-    - location: /home/ec2-user/stop_previous_container.sh
+    - location: /home/ubuntu/stop_previous_container.sh
       timeout: 300
       runas: root
   AfterInstall:
-    - location: /home/ec2-user/start_container.sh
+    - location: /home/ubuntu/start_container.sh
       timeout: 300
       runas: root
 
