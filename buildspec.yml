@@ -8,36 +8,36 @@ phases:
   pre_build:
     commands:
       - echo "The prebuild phase begins. Installing node_modules for frontend."
-      - npm install
+      # - npm install
       - echo "Logging in to Amazon ECR..."
-      - aws --version
-      - echo $AWS_DEFAULT_REGION
-      - env | grep AWS
-      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 405052395309.dkr.ecr.ap-south-1.amazonaws.com
-      - REPOSITORY_URI=405052395309.dkr.ecr.ap-south-1.amazonaws.com/sachin-rep
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=${COMMIT_HASH:-latest}
+      # - aws --version
+      # - echo $AWS_DEFAULT_REGION
+      # - env | grep AWS
+      # - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 405052395309.dkr.ecr.ap-south-1.amazonaws.com
+      # - REPOSITORY_URI=405052395309.dkr.ecr.ap-south-1.amazonaws.com/sachin-rep
+      # - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      # - IMAGE_TAG=${COMMIT_HASH:-latest}
 
   build:
     commands:
       - echo "The build phase begins. Building for Frontend"
       # - echo `pwd`
-      - npm run build
+      # - npm run build
       # - echo `ls`
-      - echo Build started on `date`
+      # - echo Build started on `date`
       - echo "Building the Docker image..."
-      - docker build -t $REPOSITORY_URI:latest .
+      # - docker build -t $REPOSITORY_URI:latest .
       - echo "listing docker images"
-      - docker images
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      # - docker images
+      # - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
 
   post_build:
     commands:
-      - echo Build completed on `date`
+      # - echo Build completed on `date`
       - echo "Pushing the Docker image to Amazon ECR..."
-      - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - printf '[{"name":"saket","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      # - docker push $REPOSITORY_URI:latest
+      # - docker push $REPOSITORY_URI:$IMAGE_TAG
+      # - printf '[{"name":"saket","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 
 artifacts:
   files:
