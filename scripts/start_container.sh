@@ -1,6 +1,5 @@
 #!/bin/bash
 
-ECR_REO_URL=405052395309.dkr.ecr.ap-south-1.amazonaws.com/sachin-rep
 
 # Authenticating ecr
 $(aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 405052395309.dkr.ecr.ap-south-1.amazonaws.com/sachin-rep)
