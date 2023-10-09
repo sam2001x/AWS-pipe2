@@ -1,16 +1,18 @@
 FROM public.ecr.aws/docker/library/node:latest
 
-WORKDIR /r-app/backend
+WORKDIR /backend
 
-COPY package*.json ./
+#COPY package*.json ./
+
+
+COPY backend .
 
 RUN npm install
-
-COPY . .
 
 EXPOSE 5000
 
 CMD ["npm","start"]
+
 
 
 
