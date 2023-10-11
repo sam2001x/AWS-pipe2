@@ -9,7 +9,7 @@ phases:
       - echo "The prebuild phase begins. Installing node_modules for frontend."
       - npm install
       - echo "logging in docker hub"
-      - docker login -u sainiG -p dckr_pat_2qqd620mQDft2AVgNvDmoCuQXN8
+      - docker login -u sainig -p dckr_pat_2qqd620mQDft2AVgNvDmoCuQXN8
       - echo "login success"
       - REPOSITORY_URI=sainig/learn-ci-cd
       # - echo "Logging in to Amazon ECR..."
