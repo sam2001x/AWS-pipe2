@@ -8,12 +8,16 @@ phases:
     commands:
       - echo "The prebuild phase begins. Installing node_modules for frontend."
       - npm install
-      - echo "Logging in to Amazon ECR..."
-      - aws --version
-      - echo $AWS_DEFAULT_REGION
-      - env | grep AWS
-      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 405052395309.dkr.ecr.ap-south-1.amazonaws.com
-      - REPOSITORY_URI=405052395309.dkr.ecr.ap-south-1.amazonaws.com/sachin-rep
+      - echo "logging in docker hub"
+      - docker login -u sainiG -p dckr_pat_2qqd620mQDft2AVgNvDmoCuQXN8
+      - echo "login success"
+      - REPOSITORY_URI=sainig/learn-ci-cd
+      # - echo "Logging in to Amazon ECR..."
+      # - aws --version
+      # - echo $AWS_DEFAULT_REGION
+      # - env | grep AWS
+      # - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 405052395309.dkr.ecr.ap-south-1.amazonaws.com
+      # - REPOSITORY_URI=405052395309.dkr.ecr.ap-south-1.amazonaws.com/sachin-rep
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:-latest}
 
